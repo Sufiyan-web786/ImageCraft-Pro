@@ -1,1 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImageCraft - Professional Image Converter</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="assets/logo.png" alt="ImageCraft Logo">
+                <h1>ImageCraft</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#tools">Tools</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Convert, Compress & Resize Images in Seconds</h2>
+                <p>Free online tool for all your image conversion needs. No registration required.</p>
+                <a href="#tools" class="btn-gradient">Get Started</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://via.placeholder.com/500x350" alt="Image Conversion Illustration" id="hero-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools" id="tools">
+        <div class="container">
+            <h2>Our Powerful Tools</h2>
+            <p class="subtitle">Select the tool you need to transform your images</p>
+            
+            <div class="tools-grid">
+                <!-- JPG to PNG -->
+                <div class="tool-card" data-tool="jpg-to-png">
+                    <div class="tool-icon">
+                        <img src="assets/icons/jpg-to-png.png" alt="JPG to PNG">
+                    </div>
+                    <h3>JPG to PNG</h3>
+                    <p>Convert JPG images to PNG format with transparent background support</p>
+                    <button class="btn-outline use-tool">Use Tool</button>
+                </div>
+                
+                <!-- PNG to JPG -->
+                <div class="tool-card" data-tool="png-to-jpg">
+                    <div class="tool-icon">
+                        <img src="assets/icons/png-to-jpg.png" alt="PNG to JPG">
+                    </div>
+                    <h3>PNG to JPG</h3>
+                    <p>Convert PNG images to high quality JPG format</p>
+                    <button class="btn-outline use-tool">Use Tool</button>
+                </div>
+                
+                <!-- WebP Conversion -->
+                <div class="tool-card" data-tool="webp-convert">
+                    <div class="tool-icon">
+                        <img src="assets/icons/webp-convert.png" alt="WebP Conversion">
+                    </div>
+                    <h3>WebP Conversion</h3>
+                    <p>Convert images to WebP format for smaller file sizes</p>
+                    <button class="btn-outline use-tool">Use Tool</button>
+                </div>
+                
+                <!-- Image Compressor -->
+                <div class="tool-card" data-tool="compress">
+                    <div class="tool-icon">
+                        <img src="assets/icons/compress.png" alt="Image Compressor">
+                    </div>
+                    <h3>Image Compressor</h3>
+                    <p>Reduce image file size without noticeable quality loss</p>
+                    <button class="btn-outline use-tool">Use Tool</button>
+                </div>
+                
+                <!-- Image Resizer -->
+                <div class="tool-card" data-tool="resize">
+                    <div class="tool-icon">
+                        <img src="assets/icons/resize.png" alt="Image Resizer">
+                    </div>
+                    <h3>Image Resizer</h3>
+                    <p>Resize images to any dimension while maintaining aspect ratio</p>
+                    <button class="btn-outline use-tool">Use Tool</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Converter Section -->
+    <section class="converter" id="converter">
+        <div class="container">
+            <div class="converter-header">
+                <h2 id="converter-title">Select a Tool to Begin</h2>
+                <p id="converter-description">Choose from our powerful image tools above</p>
+            </div>
+            
+            <div class="converter-area">
+                <!-- Upload Box -->
+                <div class="upload-box" id="uploadBox">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drag & Drop Your Image Here</h3>
+                    <p>or</p>
+                    <button class="btn-gradient" id="browseBtn">Browse Files</button>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                </div>
+                
+                <!-- Options (shown after upload) -->
+                <div class="options-box" id="optionsBox" style="display: none;">
+                    <div class="preview-container">
+                        <img id="imagePreview" src="" alt="Preview">
+                    </div>
+                    
+                    <div class="options-container">
+                        <!-- Dynamic options will be inserted here based on tool -->
+                        <div id="toolOptions"></div>
+                        
+                        <!-- Action buttons -->
+                        <div class="action-buttons">
+                            <button class="btn-outline" id="cancelBtn">Cancel</button>
+                            <button class="btn-gradient" id="processBtn">Process Image</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="progress-container" id="progressContainer" style="display: none;">
+                    <h3>Processing Your Image...</h3>
+                    <div class="progress-bar">
+                        <div class="progress" id="progressBar"></div>
+                    </div>
+                    <p id="progressText">0% Complete</p>
+                </div>
+                
+                <!-- Download Section -->
+                <div class="download-box" id="downloadBox" style="display: none;">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Your Image is Ready!</h3>
+                    <div class="result-preview">
+                        <img id="resultPreview" src="" alt="Result Preview">
+                    </div>
+                    <div class="file-info">
+                        <p>Original: <span id="originalSize">0 KB</span></p>
+                        <p>Converted: <span id="convertedSize">0 KB</span></p>
+                        <p>Saved: <span id="savedSize">0 KB</span> (<span id="savedPercent">0%</span>)</p>
+                    </div>
+                    <button class="btn-gradient" id="downloadBtn">Download Image</button>
+                    <button class="btn-outline" id="newFileBtn">Process Another File</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2>About ImageCraft</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>ImageCraft is a free online image conversion tool that helps you convert, compress, and resize your images quickly and easily. Our mission is to provide high-quality image processing without compromising your privacy.</p>
+                    <p>All processing happens directly in your browser - we never upload your images to our servers. This ensures your files remain private and secure.</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> No registration required</li>
+                        <li><i class="fas fa-check"></i> No file size limits</li>
+                        <li><i class="fas fa-check"></i> Fast processing</li>
+                        <li><i class="fas fa-check"></i> Privacy focused</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img src="https://via.placeholder.com/400x300" alt="About ImageCraft">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p>Have questions or suggestions? We'd love to hear from you!</p>
+            
+            <form id="contactForm">
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn-gradient">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="assets/logo.png" alt="ImageCraft Logo">
+                    <h3>ImageCraft</h3>
+                    <p>Your complete image conversion solution</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#tools">Tools</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 ImageCraft. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+  </html>

@@ -1,0 +1,87 @@
+// server.js
+const express = require('express');
+const multer = require('multer');
+const sharp = require('sharp');
+const cors = require('cors');
+const path = require('path');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(express.static('public'));
+
+const upload = multer({ dest: 'uploads/' });
+
+// Image processing endpoint
+app.post('/api/process', upload.single('image'), async (req, res) => {
+    try {
+        const { tool, options } = req.body;
+        const imagePath = req.file.path;
+        
+        let processedImage;
+        
+        switch(tool) {
+            case 'jpg-to-png':
+                processedImage = await sharp(imagePath)
+                    .png({ quality: parseInt(options.quality) })
+                    .toBuffer();
+                break;
+                
+            case 'png-to-jpg':
+                processedImage = await sharp(imagePath)
+                    .jpeg({ quality: parseInt(options.quality) })
+                    .toBuffer();
+                break;
+                
+            // Add other tool cases
+                
+            default:
+                return res.status(400).json({ error: 'Invalid tool' });
+        }
+        
+        res.set('Content-Type', 'image/png'); // Adjust based on output
+        res.send(processedImage);
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Processing failed' });
+    }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+name: Node.js Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm test
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
